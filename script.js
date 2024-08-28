@@ -1,6 +1,7 @@
 const button = document.getElementById('button-random-color');
 const coresPallet = document.getElementsByClassName('color');
 
+// Cria cor aleatória
 const randomColor = () => {
   const hex = '0123456789abcdef';
   let color = '#';
@@ -13,12 +14,38 @@ const randomColor = () => {
   return color;
 };
 
+// Armazena paleta padrão no localStorage
+const createStorage = () => {
+  if (localStorage.getItem('colorPalette') === null) {
+    const colors = [];
+
+    for (let index = 0; index < coresPallet.length; index += 1) {
+      colors.push(coresPallet[index].style.backgroundColor);
+    }
+    return localStorage.setItem('colorPalette', JSON.stringify(colors));
+  }
+};
+createStorage();
+
+// Adiciona cor aleatória ao clicar no botão à paleta de cores sem deixar o preto repetir
 button.addEventListener('click', () => {
+  const cores = ['#000000'];
   for (let index = 1; index < coresPallet.length; index += 1) {
     coresPallet[index].style.backgroundColor = randomColor();
+    cores.push(coresPallet[index].style.backgroundColor);
 
-    if (coresPallet[index].style.backgroundColor === 'black') {
+    if (coresPallet[index].style.backgroundColor === '#000000') {
       coresPallet[index].style.backgroundColor = randomColor();
     }
   }
+  localStorage.setItem('colorPalette', JSON.stringify(cores));
 });
+
+// Adiciona a cor clicada ao quadro de pixels
+const pullFromStorage = () => {
+  const colors = JSON.parse(localStorage.getItem('colorPalette'));
+  for (let index = 0; index < coresPallet.length; index += 1) {
+    coresPallet[index].style.backgroundColor = colors[index];
+  }
+};
+pullFromStorage();
