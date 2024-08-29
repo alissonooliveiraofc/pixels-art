@@ -95,3 +95,16 @@ const paintPixel = () => {
 };
 
 paintPixel();
+
+const clearBoard = () => {
+  const clearButton = document.getElementById('clear-board');
+
+  clearButton.addEventListener('click', () => {
+    const pixels = document.getElementsByClassName('pixel');
+    for (let index = 0; index < pixels.length; index += 1) {
+      pixels[index].style.backgroundColor = 'white';
+    }
+  });
+};
+
+clearBoard();
