@@ -23,6 +23,7 @@
 
 #color-palette {
   position: relative;
+  cursor: pointer;
 }
 
 .linha {

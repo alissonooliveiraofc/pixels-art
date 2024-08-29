@@ -61,9 +61,9 @@ const makeCells = () => {
     pixelBoard.appendChild(row);
 
     for (let coluna = 0; coluna < 5; coluna += 1) {
-      const pixel = document.createElement('div');
-      pixel.className = 'pixel';
-      row.appendChild(pixel);
+      const makePixel = document.createElement('div');
+      makePixel.className = 'pixel';
+      row.appendChild(makePixel);
     }
   }
 };
@@ -87,8 +87,7 @@ const paintPixel = () => {
   for (let index = 0; index < pixels.length; index += 1) {
     pixels[index].addEventListener('click', (event) => {
       const { target } = event;
-      const selectedColor = document
-        .querySelector('.selected').style.backgroundColor;
+      const selectedColor = document.querySelector('.selected').style.backgroundColor;
       target.style.backgroundColor = selectedColor;
     });
   }
@@ -108,3 +107,44 @@ const clearBoard = () => {
 };
 
 clearBoard();
+
+// Função para salvar o estado atual do quadro no localStorage
+const saveColors = () => {
+  const pixels = document.querySelectorAll('.pixel');
+  const paintedColors = [];
+
+  for (let i = 0; i < pixels.length; i += 1) {
+    paintedColors.push(pixels[i].style.backgroundColor);
+  }
+
+  localStorage.setItem('pixelBoard', JSON.stringify(paintedColors));
+};
+
+// Adiciona evento de clique a cada pixel para salvar a cor no localStorage
+const addClickEventToPixels = () => {
+  const pixels = document.querySelectorAll('.pixel');
+
+  for (let i = 0; i < pixels.length; i += 1) {
+    pixels[i].addEventListener('click', () => {
+      saveColors();
+    });
+  }
+};
+
+// Função para recuperar o estado do quadro do localStorage
+const loadColors = () => {
+  const pixels = document.querySelectorAll('.pixel');
+  const paintedColors = JSON.parse(localStorage.getItem('pixelBoard'));
+
+  if (paintedColors) {
+    for (let i = 0; i < pixels.length; i += 1) {
+      pixels[i].style.backgroundColor = paintedColors[i];
+    }
+  }
+};
+
+// Chama as funções para adicionar eventos e carregar as cores ao carregar a página
+window.onload = () => {
+  addClickEventToPixels();
+  loadColors();
+};
