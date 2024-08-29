@@ -30,6 +30,7 @@ createStorage();
 // Adiciona cor aleatória ao clicar no botão à paleta de cores sem deixar o preto repetir
 button.addEventListener('click', () => {
   const cores = ['#000000'];
+
   for (let index = 1; index < coresPallet.length; index += 1) {
     coresPallet[index].style.backgroundColor = randomColor();
     cores.push(coresPallet[index].style.backgroundColor);
@@ -49,3 +50,21 @@ const pullFromStorage = () => {
   }
 };
 pullFromStorage();
+
+// Adiciona quadro de pixels
+const makeCells = () => {
+  const pixelBoard = document.getElementById('pixel-board');
+
+  for (let linha = 0; linha < 5; linha += 1) {
+    const row = document.createElement('div');
+    row.className = 'linha';
+    pixelBoard.appendChild(row);
+
+    for (let coluna = 0; coluna < 5; coluna += 1) {
+      const pixel = document.createElement('div');
+      pixel.className = 'pixel';
+      row.appendChild(pixel);
+    }
+  }
+};
+makeCells();
