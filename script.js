@@ -68,3 +68,30 @@ const makeCells = () => {
   }
 };
 makeCells();
+
+const selectClass = () => {
+  coresPallet[0].classList.add('selected');
+  for (let index = 0; index < coresPallet.length; index += 1) {
+    coresPallet[index].addEventListener('click', (event) => {
+      for (let index2 = 0; index2 < coresPallet.length; index2 += 1) {
+        coresPallet[index2].classList.remove('selected');
+      }
+      event.target.classList.add('selected');
+    });
+  }
+};
+selectClass();
+
+const paintPixel = () => {
+  const pixels = document.getElementsByClassName('pixel');
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].addEventListener('click', (event) => {
+      const { target } = event;
+      const selectedColor = document
+        .querySelector('.selected').style.backgroundColor;
+      target.style.backgroundColor = selectedColor;
+    });
+  }
+};
+
+paintPixel();
