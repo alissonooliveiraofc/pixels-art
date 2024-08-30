@@ -174,9 +174,7 @@ const changeBoard = () => {
       row.appendChild(makePixel);
     }
   }
-
   paintPixel();
-  clearBoard();
 };
 
 const limitBoard = () => {
@@ -199,16 +197,18 @@ const saveBoardLength = () => {
   localStorage.setItem('boardSize', boardSize);
 };
 
-const loadBoardLength = () => {
+const loadBoardSize = () => {
   const boardSize = localStorage.getItem('boardSize');
-
-  if (localStorage.getItem('boardSize') === null) {
-    localStorage.setItem('boardSize', 5);
-  } else if (boardSize) {
+  if (boardSize) {
     input.value = boardSize;
     changeBoard();
+    loadColors();
+    addClickEventToPixels(); // Add click event to new pixels
+    saveColors(); // Save colors for new board size
   }
 };
+
+window.addEventListener('DOMContentLoaded', loadBoardSize);
 
 buttonChangeBoard.addEventListener('click', makeCells);
 buttonChangeBoard.addEventListener('click', inputAlert);
@@ -216,4 +216,4 @@ buttonChangeBoard.addEventListener('click', limitBoard);
 buttonChangeBoard.addEventListener('click', changeBoard);
 buttonChangeBoard.addEventListener('click', saveBoardLength);
 
-loadBoardLength();
+// loadBoardLength();
