@@ -214,3 +214,6 @@ buttonChangeBoard.addEventListener('click', inputAlert);
 buttonChangeBoard.addEventListener('click', limitBoard);
 buttonChangeBoard.addEventListener('click', changeBoard);
 buttonChangeBoard.addEventListener('click', saveBoardLength);
+buttonChangeBoard.addEventListener('click', () => {
+  document.location.reload();
+});
