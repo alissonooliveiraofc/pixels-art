@@ -204,11 +204,10 @@ const loadBoardSize = () => {
     changeBoard();
     loadColors();
     addClickEventToPixels(); // Add click event to new pixels
-    saveColors(); // Save colors for new board size
   }
 };
 
-window.addEventListener('DOMContentLoaded', loadBoardSize);
+window.onload = loadBoardSize;
 
 buttonChangeBoard.addEventListener('click', makeCells);
 buttonChangeBoard.addEventListener('click', inputAlert);
