@@ -69,6 +69,7 @@ const makeCells = () => {
 };
 makeCells();
 
+// Adiciona classe selected à cor preta
 const selectClass = () => {
   coresPallet[0].classList.add('selected');
   for (let index = 0; index < coresPallet.length; index += 1) {
@@ -82,6 +83,7 @@ const selectClass = () => {
 };
 selectClass();
 
+// Adiciona evento de clique a cada pixel para pintá-lo
 const paintPixel = () => {
   const pixels = document.getElementsByClassName('pixel');
   for (let index = 0; index < pixels.length; index += 1) {
@@ -95,6 +97,19 @@ const paintPixel = () => {
 
 paintPixel();
 
+// Função para salvar o estado atual do quadro no localStorage
+const saveColors = () => {
+  const pixels = document.querySelectorAll('.pixel');
+  const paintedColors = [];
+
+  for (let index = 0; index < pixels.length; index += 1) {
+    paintedColors.push(pixels[index].style.backgroundColor);
+  }
+
+  localStorage.setItem('pixelBoard', JSON.stringify(paintedColors));
+};
+
+// Limpa o quadro de pixels
 const clearBoard = () => {
   const clearButton = document.getElementById('clear-board');
 
@@ -103,33 +118,23 @@ const clearBoard = () => {
     for (let index = 0; index < pixels.length; index += 1) {
       pixels[index].style.backgroundColor = 'white';
     }
+    saveColors();
   });
 };
-
 clearBoard();
-
-// Função para salvar o estado atual do quadro no localStorage
-const saveColors = () => {
-  const pixels = document.querySelectorAll('.pixel');
-  const paintedColors = [];
-
-  for (let i = 0; i < pixels.length; i += 1) {
-    paintedColors.push(pixels[i].style.backgroundColor);
-  }
-
-  localStorage.setItem('pixelBoard', JSON.stringify(paintedColors));
-};
 
 // Adiciona evento de clique a cada pixel para salvar a cor no localStorage
 const addClickEventToPixels = () => {
   const pixels = document.querySelectorAll('.pixel');
 
-  for (let i = 0; i < pixels.length; i += 1) {
-    pixels[i].addEventListener('click', () => {
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].addEventListener('click', () => {
       saveColors();
     });
   }
 };
+
+addClickEventToPixels();
 
 // Função para recuperar o estado do quadro do localStorage
 const loadColors = () => {
@@ -137,14 +142,52 @@ const loadColors = () => {
   const paintedColors = JSON.parse(localStorage.getItem('pixelBoard'));
 
   if (paintedColors) {
-    for (let i = 0; i < pixels.length; i += 1) {
-      pixels[i].style.backgroundColor = paintedColors[i];
+    for (let index = 0; index < pixels.length; index += 1) {
+      pixels[index].style.backgroundColor = paintedColors[index];
     }
   }
 };
+loadColors();
 
-// Chama as funções para adicionar eventos e carregar as cores ao carregar a página
-window.onload = () => {
-  addClickEventToPixels();
-  loadColors();
+const inputAlert = () => {
+  const input = document.getElementById('board-size');
+
+  if (input.value === '') {
+    alert('Board inválido!');
+  }
 };
+
+const buttonChangeBoard = document.getElementById('generate-board');
+
+const changeBoard = () => {
+  const pixelBoard = document.getElementById('pixel-board');
+  const input = document.getElementById('board-size');
+
+  pixelBoard.innerHTML = '';
+
+  for (let linha = 0; linha < input.value; linha += 1) {
+    const row = document.createElement('div');
+    row.className = 'linha';
+    pixelBoard.appendChild(row);
+
+    for (let coluna = 0; coluna < input.value; coluna += 1) {
+      const makePixel = document.createElement('div');
+      makePixel.className = 'pixel';
+      row.appendChild(makePixel);
+    }
+  }
+  paintPixel();
+};
+
+const limitBoard = () => {
+  const input = document.getElementById('board-size');
+  if (input.value < 5) {
+    input.value = 5;
+  } else if (input.value > 50) {
+    input.value = 50;
+  }
+};
+
+buttonChangeBoard.addEventListener('click', inputAlert);
+buttonChangeBoard.addEventListener('click', limitBoard);
+buttonChangeBoard.addEventListener('click', changeBoard);

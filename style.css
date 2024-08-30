@@ -29,3 +29,12 @@
 .linha {
   margin-bottom: -4px;
 }
+
+#board-size {
+  width: 150px;
+}
+
+#pixel-board {
+ text-align: center;
+ margin: auto;
+}
