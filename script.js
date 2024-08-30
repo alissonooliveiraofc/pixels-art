@@ -1,5 +1,6 @@
 const button = document.getElementById('button-random-color');
 const coresPallet = document.getElementsByClassName('color');
+const input = document.getElementById('board-size');
 
 // Cria cor aleatória
 const randomColor = () => {
@@ -150,8 +151,6 @@ const loadColors = () => {
 loadColors();
 
 const inputAlert = () => {
-  const input = document.getElementById('board-size');
-
   if (input.value === '') {
     alert('Board inválido!');
   }
@@ -161,7 +160,6 @@ const buttonChangeBoard = document.getElementById('generate-board');
 
 const changeBoard = () => {
   const pixelBoard = document.getElementById('pixel-board');
-  const input = document.getElementById('board-size');
 
   pixelBoard.innerHTML = '';
 
@@ -176,11 +174,12 @@ const changeBoard = () => {
       row.appendChild(makePixel);
     }
   }
+
   paintPixel();
+  clearBoard();
 };
 
 const limitBoard = () => {
-  const input = document.getElementById('board-size');
   if (input.value < 5) {
     input.value = 5;
   } else if (input.value > 50) {
@@ -188,6 +187,33 @@ const limitBoard = () => {
   }
 };
 
+const saveBoardLength = () => {
+  let boardSize;
+  if (input.value < 5) {
+    boardSize = 5;
+  } else if (input.value > 50) {
+    boardSize = 50;
+  } else {
+    boardSize = input.value;
+  }
+  localStorage.setItem('boardSize', boardSize);
+};
+
+const loadBoardLength = () => {
+  const boardSize = localStorage.getItem('boardSize');
+
+  if (localStorage.getItem('boardSize') === null) {
+    localStorage.setItem('boardSize', 5);
+  } else if (boardSize) {
+    input.value = boardSize;
+    changeBoard();
+  }
+};
+
+buttonChangeBoard.addEventListener('click', makeCells);
 buttonChangeBoard.addEventListener('click', inputAlert);
 buttonChangeBoard.addEventListener('click', limitBoard);
 buttonChangeBoard.addEventListener('click', changeBoard);
+buttonChangeBoard.addEventListener('click', saveBoardLength);
+
+loadBoardLength();
