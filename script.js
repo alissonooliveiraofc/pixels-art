@@ -215,5 +215,3 @@ buttonChangeBoard.addEventListener('click', inputAlert);
 buttonChangeBoard.addEventListener('click', limitBoard);
 buttonChangeBoard.addEventListener('click', changeBoard);
 buttonChangeBoard.addEventListener('click', saveBoardLength);
-
-// loadBoardLength();
